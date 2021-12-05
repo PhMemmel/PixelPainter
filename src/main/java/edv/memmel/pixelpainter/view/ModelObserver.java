@@ -5,6 +5,7 @@ import edv.memmel.pixelpainter.model.PixelManager;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -16,13 +17,15 @@ import javafx.scene.paint.Color;
 class ModelObserver implements PropertyChangeListener {
 
   private Label[][] guiPixels;
-  private Label currentColorLabel;
   private PixelManager pixelManager;
   private ColorPicker colorPicker;
+
+  private final SimpleStringProperty currentColor;
 
   ModelObserver(PixelManager pixelManager) {
     this.pixelManager = pixelManager;
     pixelManager.addPropertyChangeListener(this);
+    currentColor = new SimpleStringProperty("");
   }
 
   @Override
@@ -42,7 +45,7 @@ class ModelObserver implements PropertyChangeListener {
       case "currentPaintColorChanged":
         Platform.runLater(
             () -> {
-              currentColorLabel.setText(pixelManager.getCurrentPaintColor());
+              currentColor.setValue(pixelManager.getCurrentPaintColor());
               colorPicker.setValue(Color.valueOf(pixelManager.getCurrentPaintColor()));
             });
         break;
@@ -50,7 +53,7 @@ class ModelObserver implements PropertyChangeListener {
   }
 
   void setCurrentColorLabel(Label currentColorLabel) {
-    this.currentColorLabel = currentColorLabel;
+    currentColorLabel.textProperty().bind(currentColor);
   }
 
   void setColorPicker(ColorPicker colorPicker) {
