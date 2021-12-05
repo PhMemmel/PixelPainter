@@ -13,8 +13,8 @@ public class PixelGrid {
     }
   }
 
-  Pixel getPixelAt(int rowIndex, int colIndex) {
-    return pixelGrid[rowIndex][colIndex];
+  Pixel getPixelAt(Coordinate coordinate) {
+    return pixelGrid[coordinate.getX()][coordinate.getY()];
   }
 
 }
