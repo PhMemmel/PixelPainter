@@ -1,21 +1,28 @@
 package edv.memmel.pixelpainter.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Pixel {
 
-  private String color;
+  private StringProperty color;
   private boolean disabled;
 
   Pixel() {
-    color = null;
+    color = new SimpleStringProperty("lightgrey");
     disabled = false;
   }
 
   String getColor() {
-    return color;
+    return color.getValue();
   }
 
+  StringProperty colorProperty() {
+    return color;
+  };
+
   void setColor(String color) {
-    this.color = color;
+    this.color.setValue(color);
   }
 
   boolean isDisabled() {
